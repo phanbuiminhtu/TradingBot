@@ -1,0 +1,91 @@
+prompt1 = f"""Bạn là chuyên gia phân tích tài chính chuyên về doanh nghiệp bất động sản Việt Nam.  
+Tôi sẽ cung cấp dữ liệu Báo cáo kết quả kinh doanh (Income Statement) của {symbol}, một doanh nghiệp BĐS:
+
+{income_df_str}
+
+Hãy phân tích theo hướng:
+1. **Hiệu quả hoạt động kinh doanh**: xu hướng doanh thu, lợi nhuận gộp, lợi nhuận thuần qua các năm.  
+2. **Cấu trúc lợi nhuận**: mức độ phụ thuộc vào thu nhập tài chính, chi phí lãi vay, lợi nhuận khác.  
+3. **Biên lợi nhuận**:  
+   - Biên lợi nhuận gộp = Lãi gộp / Doanh thu thuần.  
+   - Biên lợi nhuận ròng = Lợi nhuận sau thuế / Doanh thu thuần.  
+4. **Tăng trưởng và ổn định lợi nhuận**: tốc độ tăng trưởng doanh thu & lợi nhuận; biến động có ổn định không?  
+5. **Nhận xét theo đặc thù doanh nghiệp BĐS**:  
+   - Lợi nhuận có đến từ bàn giao dự án hay chủ yếu từ tài chính?  
+   - Chu kỳ lợi nhuận có bị gián đoạn theo dự án không?  
+6. **Kết luận ngắn gọn**:  
+   - Hiệu quả kinh doanh: mạnh / trung bình / yếu.  
+   - Lợi nhuận có bền vững không?  
+
+Đầu ra mong muốn:
+- Bảng tóm tắt theo từng năm.  
+- Diễn giải xu hướng rõ ràng, ngắn gọn, có logic.  
+- Phong cách báo cáo phân tích đầu tư chuyên nghiệp.
+"""
+
+prompt2 = f"""Bạn là chuyên gia phân tích tài chính chuyên về doanh nghiệp bất động sản Việt Nam.  
+Tôi sẽ cung cấp dữ liệu **Bảng cân đối kế toán (Balance Sheet)** của doanh nghiệp {symbol}:
+
+{balance_df_str}
+
+Hãy phân tích tập trung vào:
+1. **Cơ cấu tài sản và nợ**: tỷ trọng tài sản ngắn hạn / dài hạn; nợ phải trả / vốn chủ sở hữu.  
+2. **Phân tích nợ vay**:  
+   - So sánh nợ ngắn hạn vs nợ dài hạn.  
+   - Mức độ phụ thuộc vào vay ngắn hạn.  
+   - Rủi ro thanh khoản và tái cấp vốn.  
+3. **Đánh giá hàng tồn kho và dự án**:  
+   - Tỷ trọng hàng tồn kho trong tổng tài sản.  
+   - Tồn kho tăng do mở rộng dự án hay do chậm tiêu thụ?  
+   - “Người mua trả tiền trước” → phản ánh tiến độ bán dự án.  
+4. **Khả năng thanh toán và dòng tiền**:  
+   - Hệ số thanh toán hiện hành = Tài sản ngắn hạn / Nợ ngắn hạn.  
+   - Hệ số thanh toán nhanh = (Tài sản ngắn hạn – Hàng tồn kho) / Nợ ngắn hạn.  
+5. **Đòn bẩy tài chính**: xu hướng tỷ lệ nợ/vốn chủ, rủi ro lãi suất.  
+6. **Tổng hợp đánh giá**:  
+   - Cấu trúc tài chính an toàn, cân bằng hay rủi ro cao?  
+   - Doanh nghiệp đang mở rộng, ổn định hay thu hẹp quy mô đầu tư?
+
+Đầu ra mong muốn:
+- Bảng hoặc đoạn tóm tắt theo từng năm.  
+- Biểu đồ hoặc mô tả xu hướng (nếu có thể).  
+- Giọng văn khách quan, phong cách phân tích đầu tư chuyên nghiệp.
+"""
+
+prompt3 = f"""Bạn là chuyên gia phân tích tài chính chuyên về doanh nghiệp bất động sản Việt Nam.  
+Tôi sẽ cung cấp cho bạn dữ liệu **Báo cáo lưu chuyển tiền tệ (Cash Flow Statement)** của {symbol}, một doanh nghiệp BĐS:
+
+{cash_flow_df_str}
+
+Hãy phân tích theo hướng:
+1. **Dòng tiền hoạt động kinh doanh (Operating Cash Flow – OCF)**  
+   - So sánh xu hướng OCF qua các năm: dương hay âm?  
+   - Nếu OCF âm kéo dài, nguyên nhân là gì (tăng tồn kho, phải thu, hay lợi nhuận không chuyển thành tiền)?  
+   - Đối với doanh nghiệp BĐS, lưu ý: OCF có thể âm trong giai đoạn đầu tư dự án – hãy đánh giá tính chu kỳ này.
+
+2. **Dòng tiền đầu tư (Investing Cash Flow – ICF)**  
+   - Phân tích chi cho mua TSCĐ, đầu tư dự án, hoặc đầu tư tài chính.  
+   - Có dấu hiệu **mở rộng đầu tư** (chi ra nhiều) hay **thu hẹp/quay vòng vốn** (thu hồi đầu tư, thanh lý tài sản)?  
+   - Nhận xét về tính hợp lý giữa dòng tiền đầu tư và chiến lược phát triển doanh nghiệp.
+
+3. **Dòng tiền tài chính (Financing Cash Flow – FCF)**  
+   - Phân tích nguồn tiền đến từ vay nợ, phát hành cổ phiếu, và chi ra cho trả nợ, trả cổ tức.  
+   - Doanh nghiệp có phụ thuộc nhiều vào **dòng tiền vay nợ** không?  
+   - Dòng tiền tài chính dương do vay mới hay do huy động vốn cổ phần?
+
+4. **Tổng hợp và đánh giá dòng tiền thuần (Net Cash Flow)**  
+   - Tiền và tương đương tiền cuối kỳ có xu hướng tăng hay giảm?  
+   - Dòng tiền có phản ánh đúng lợi nhuận kế toán không (lợi nhuận cao nhưng tiền âm)?  
+   - Đánh giá **khả năng trả nợ và duy trì thanh khoản** trong bối cảnh thị trường BĐS chậm.
+
+5. **Kết luận theo đặc thù BĐS**  
+   - Doanh nghiệp đang ở giai đoạn: mở rộng dự án / thu hồi vốn / tái cơ cấu nợ.  
+   - Dòng tiền có lành mạnh không?  
+   - Rủi ro tiềm ẩn về thanh khoản hoặc đòn bẩy vốn ngắn hạn?
+
+Đầu ra mong muốn:
+- Bảng hoặc đoạn tóm tắt cho từng năm.  
+- Phân tích rõ nguyên nhân chính ảnh hưởng đến từng loại dòng tiền.  
+- Biểu đồ xu hướng 3 dòng tiền (hoạt động – đầu tư – tài chính) nếu có thể.  
+- Phong cách báo cáo phân tích đầu tư chuyên nghiệp, khách quan.
+"""

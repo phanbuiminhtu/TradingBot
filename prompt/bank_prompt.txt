@@ -1,0 +1,102 @@
+prompt1 = f"""Bạn là chuyên gia phân tích tài chính chuyên về ngành ngân hàng Việt Nam.  
+Tôi sẽ cung cấp dữ liệu **Báo cáo kết quả kinh doanh (Income Statement)** của một ngân hàng thương mại, gồm các cột:
+
+{income_df_str}
+
+Hãy phân tích theo hướng:
+1. **Tăng trưởng hoạt động kinh doanh**  
+   - Tốc độ tăng trưởng thu nhập lãi thuần và ngoài lãi qua các năm.  
+   - Đánh giá nguồn lợi nhuận chính đến từ đâu: chênh lệch lãi suất (NIM), phí dịch vụ, hay hoạt động đầu tư?
+
+2. **Chất lượng lợi nhuận**  
+   - Tỷ trọng thu nhập lãi thuần / tổng thu nhập hoạt động.  
+   - Biến động chi phí dự phòng rủi ro tín dụng – có ảnh hưởng mạnh đến lợi nhuận không?  
+   - Mức chi phí hoạt động / tổng thu nhập (Cost-to-Income ratio).
+
+3. **Hiệu quả hoạt động và xu hướng sinh lời**  
+   - Lợi nhuận trước thuế, sau thuế, và biên lợi nhuận ròng.  
+   - So sánh tốc độ tăng lợi nhuận và doanh thu.  
+   - Xu hướng tăng trưởng có ổn định không?
+
+4. **Đặc thù ngành ngân hàng**  
+   - Nếu lợi nhuận tăng mạnh: có đến từ tín dụng, đầu tư chứng khoán, hay dịch vụ phí?  
+   - Nhận xét rủi ro tiềm ẩn nếu chi phí dự phòng thấp bất thường hoặc thu nhập ngoài lãi chiếm tỷ trọng cao.
+
+5. **Kết luận**  
+   - Hiệu quả kinh doanh: mạnh / ổn định / yếu.  
+   - Cấu trúc thu nhập có bền vững không?
+
+Đầu ra mong muốn:
+- Bảng và đoạn tóm tắt xu hướng từng năm.  
+- Phong cách báo cáo phân tích đầu tư chuyên nghiệp, khách quan.
+"""
+
+prompt2 = f"""Bạn là chuyên gia phân tích tài chính chuyên về ngành ngân hàng Việt Nam.  
+Tôi sẽ cung cấp dữ liệu **Bảng cân đối kế toán (Balance Sheet)** của một ngân hàng thương mại, gồm các cột:
+
+{balance_df_str}
+
+Hãy phân tích theo hướng:
+1. **Cấu trúc tài sản**  
+   - Tỷ trọng cho vay khách hàng, đầu tư chứng khoán, và tiền gửi tại NHNN.  
+   - Xu hướng tăng trưởng tín dụng (cho vay) qua các năm.  
+   - Mức độ tập trung tín dụng – có dấu hiệu tăng rủi ro không?
+
+2. **Cấu trúc nguồn vốn**  
+   - Tỷ trọng tiền gửi khách hàng / tổng nguồn vốn.  
+   - Mức phụ thuộc vào vốn vay liên ngân hàng hoặc phát hành giấy tờ có giá.  
+   - Đánh giá tính ổn định của nguồn vốn huy động.
+
+3. **Chất lượng tài sản & dự phòng rủi ro**  
+   - So sánh tăng trưởng cho vay và dự phòng rủi ro.  
+   - Tỷ lệ dự phòng / dư nợ cho vay (ước tính).  
+   - Có dấu hiệu nợ xấu tăng không?
+
+4. **Thanh khoản và an toàn vốn**  
+   - Tỷ lệ vốn chủ sở hữu / tổng tài sản.  
+   - Xu hướng tăng/giảm vốn điều lệ.  
+   - Nhận xét khả năng duy trì an toàn vốn (CAR – nếu có dữ liệu).
+
+5. **Kết luận tổng thể**  
+   - Cấu trúc tài chính an toàn hay rủi ro?  
+   - Ngân hàng đang trong giai đoạn mở rộng tín dụng, củng cố vốn hay thu hẹp bảng cân đối?
+
+Đầu ra mong muốn:
+- Tóm tắt theo từng năm.  
+- Biểu đồ hoặc mô tả xu hướng nếu có thể.  
+- Giọng văn khách quan, chuyên nghiệp.
+"""
+
+prompt3 = f"""Bạn là chuyên gia phân tích tài chính chuyên về ngân hàng.  
+Tôi sẽ cung cấp dữ liệu **Báo cáo lưu chuyển tiền tệ (Cash Flow Statement)** của một ngân hàng thương mại, gồm các cột:
+
+{cash_flow_df_str}
+
+Hãy phân tích theo hướng:
+1. **Dòng tiền từ hoạt động kinh doanh (Operating Cash Flow – OCF)**  
+   - Xu hướng OCF qua các năm – dương hay âm?  
+   - Nếu âm, nguyên nhân là do tăng cho vay, giảm huy động, hay lợi nhuận kế toán không chuyển thành tiền?  
+   - OCF có ổn định không khi so với lợi nhuận sau thuế?
+
+2. **Dòng tiền đầu tư (Investing Cash Flow – ICF)**  
+   - Các khoản chi đầu tư chứng khoán, cơ sở vật chất, hoặc đầu tư dài hạn.  
+   - Ngân hàng đang mở rộng đầu tư hay thu hồi vốn?
+
+3. **Dòng tiền tài chính (Financing Cash Flow – FCF)**  
+   - Phân tích nguồn huy động từ cổ phiếu, giấy tờ có giá, hoặc vay liên ngân hàng.  
+   - Xu hướng chi trả cổ tức và trả nợ.  
+   - Đánh giá sự phụ thuộc vào nguồn vốn bên ngoài.
+
+4. **Khả năng tạo dòng tiền thật và thanh khoản**  
+   - So sánh OCF với lợi nhuận ròng.  
+   - Tiền cuối kỳ tăng hay giảm, có đảm bảo thanh khoản ngắn hạn không?  
+   - Nhận xét tính bền vững của dòng tiền.
+
+5. **Kết luận tổng thể**  
+   - Dòng tiền lành mạnh / trung bình / rủi ro.  
+   - Ngân hàng đang ở giai đoạn mở rộng, ổn định hay điều chỉnh bảng cân đối?
+
+Đầu ra mong muốn:
+- Tóm tắt từng năm.  
+- Giọng văn khách quan, chuyên nghiệp.
+"""
