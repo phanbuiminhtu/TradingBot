@@ -22,7 +22,7 @@ def configure_api():
     """
     try:
         # Thay thế "YOUR_API_KEY" bằng khóa API thực của bạn
-        api_key = "AIzaSyCrCqk-h91AKpQLm0r1qQ89s1ZVg0VxZOU"
+        api_key = "YOUR_API_KEY"
         if not api_key or api_key == "YOUR_API_KEY":
             print("ERROR: GOOGLE_API_KEY is not set or is a placeholder.")
             print("Please set your API key to proceed.")
@@ -192,115 +192,100 @@ def agent_analyze_financials(model, financial_data_dict: dict, technical_analysi
     # --- Phân tích các báo cáo tài chính (đã rút gọn cho dễ đọc) ---
     print("   [1/4] Phân tích Báo cáo kết quả kinh doanh...")
     income_df_str = financial_data_dict['income_statement'].to_string()
-    prompt1 = f"""Bạn là chuyên gia phân tích tài chính chuyên về ngành chứng khoán Việt Nam.  
-Tôi sẽ cung cấp cho bạn dữ liệu **Báo cáo kết quả kinh doanh (Income Statement)** của một công ty chứng khoán, gồm các cột:
+    prompt1 = f"""
+Bạn là chuyên gia phân tích tài chính ngành dầu khí tại Việt Nam.
+Hãy phân tích ngắn gọn kết quả kinh doanh của công ty {symbol} dựa trên dữ liệu sau:
 
 {income_df_str}
 
-Hãy phân tích theo hướng:
-1. **Hiệu quả hoạt động kinh doanh chính**  
-   - Cơ cấu doanh thu: môi giới, cho vay margin, tự doanh, dịch vụ tư vấn.  
-   - Đóng góp của từng mảng vào tổng doanh thu và lợi nhuận.
+Yêu cầu phân tích theo cấu trúc sau:
+1. **Điểm nổi bật trong kết quả kinh doanh**:
+   - Biến động doanh thu, lợi nhuận gộp, lợi nhuận sau thuế theo quý hoặc năm.
+   - Giải thích nguyên nhân chính: biến động giá dầu thô, sản lượng khai thác / vận chuyển / chế biến, giá khí đầu ra, hoặc chi phí đầu vào (nguyên liệu, vận tải, nhân công).
+   - Nếu công ty thuộc hạ nguồn (lọc hóa dầu, phân phối khí, xăng dầu): nêu tác động của **chênh lệch giá dầu đầu vào – đầu ra (crack spread)**, biến động **biên lợi nhuận gộp**.
 
-2. **Phân tích mảng tự doanh**  
-   - Xu hướng lãi/lỗ tự doanh qua các năm — có biến động mạnh theo thị trường không?  
-   - Nhận xét tính ổn định và rủi ro của lợi nhuận tự doanh.  
-   - So sánh lợi nhuận tự doanh với lợi nhuận hoạt động chính.
+2. **Các chỉ số tài chính quan trọng**:
+   - Doanh thu, lợi nhuận gộp, lợi nhuận sau thuế.
+   - Biên lợi nhuận gộp, biên lợi nhuận ròng (%).
+   - ROE, ROA nếu có dữ liệu.
+   - Đánh giá mức độ ổn định của lợi nhuận (ổn định hay biến động mạnh theo giá dầu).
 
-3. **Biên lợi nhuận và chi phí hoạt động**  
-   - Biên lợi nhuận gộp và ròng.  
-   - Chi phí hoạt động và chi phí tài chính có tăng nhanh hơn doanh thu không?  
-   - Đánh giá hiệu quả quản trị chi phí (Cost-to-Income ratio).
+3. **So sánh xu hướng tăng trưởng**:
+   - So sánh với cùng kỳ năm trước (YoY) và quý trước (QoQ).
+   - Đánh giá liệu tăng trưởng đến từ giá bán, sản lượng hay yếu tố bất thường (thu nhập khác, lãi/lỗ tỷ giá...).
 
-4. **Tăng trưởng và ổn định lợi nhuận**  
-   - Xu hướng tăng trưởng doanh thu và lợi nhuận sau thuế.  
-   - Ảnh hưởng của thị trường chứng khoán (VN-Index, thanh khoản thị trường) đến kết quả kinh doanh.
-
-5. **Kết luận**  
-   - Công ty chứng khoán có đang phụ thuộc nhiều vào tự doanh hay hoạt động cốt lõi?  
-   - Mức độ ổn định lợi nhuận trong các chu kỳ thị trường khác nhau.
-
-Đầu ra mong muốn:
-- Bảng tóm tắt theo từng năm.  
-- Biểu đồ xu hướng nếu có thể.  
-- Giọng văn chuyên nghiệp, giống phong cách báo cáo phân tích đầu tư.
+4. **Nhận xét tổng quan**:
+   - Đánh giá triển vọng ngắn hạn: xu hướng giá dầu, khí, sản lượng khai thác, nhu cầu năng lượng nội địa.
+   - Kết luận: {symbol} có kết quả **tích cực / trung lập / tiêu cực**, nêu rõ lý do.
 """
 
     all_analyses.append(f"### 1. Phân tích Kết quả Kinh doanh\n{model.generate_content(prompt1).text}")
 
     print("   [2/4] Phân tích Bảng cân đối kế toán...")
     balance_df_str = financial_data_dict['balance_sheet'].to_string()
-    prompt2 = f"""Bạn là chuyên gia phân tích tài chính chuyên về ngành chứng khoán Việt Nam.  
-Tôi sẽ cung cấp dữ liệu **Bảng cân đối kế toán (Balance Sheet)** của một công ty chứng khoán, gồm các cột:
+    prompt2 = f"""
+Bạn là chuyên viên phân tích tài chính chuyên về các doanh nghiệp dầu khí (thượng nguồn, trung nguồn, hạ nguồn).
+Phân tích Bảng Cân đối kế toán của {symbol} dựa trên dữ liệu sau:
 
 {balance_df_str}
 
-Hãy phân tích theo hướng:
-1. **Cơ cấu tài sản**  
-   - Tỷ trọng tài sản tài chính, cho vay margin, và đầu tư tự doanh.  
-   - Biến động các khoản đầu tư ngắn hạn và dài hạn qua các năm.  
-   - Mức độ tập trung vốn vào tự doanh hay hoạt động dịch vụ.
+Yêu cầu phân tích theo cấu trúc sau:
+1. **Tổng quan tài sản**:
+   - Quy mô tổng tài sản, cơ cấu tài sản ngắn hạn và dài hạn.
+   - Các khoản mục chiếm tỷ trọng lớn: tiền mặt, hàng tồn kho (dầu thô, khí hóa lỏng, xăng dầu), tài sản cố định, tài sản dở dang dài hạn (các dự án dầu khí).
+   - Đánh giá tính thanh khoản của tài sản (ví dụ: tồn kho cao có rủi ro giảm giá hay không).
 
-2. **Cấu trúc nguồn vốn và đòn bẩy tài chính**  
-   - Tỷ lệ nợ phải trả / vốn chủ sở hữu.  
-   - Mức độ sử dụng vốn vay từ ngân hàng hoặc phát hành trái phiếu để cấp margin.  
-   - Rủi ro thanh khoản nếu thị trường biến động mạnh.
+2. **Cơ cấu nguồn vốn**:
+   - Nợ phải trả ngắn hạn, dài hạn; vốn chủ sở hữu.
+   - Đánh giá mức độ đòn bẩy tài chính (nợ vay cao hay thấp), thay đổi qua các kỳ.
+   - Nhận xét khả năng tự chủ tài chính, rủi ro lãi suất và nợ ngoại tệ.
 
-3. **Rủi ro đầu tư và danh mục tự doanh**  
-   - Nếu có dữ liệu chi tiết, đánh giá quy mô danh mục tự doanh và khả năng chịu lỗ.  
-   - Nhận xét về mức độ rủi ro so với quy mô vốn chủ.
+3. **Các chỉ số tài chính quan trọng**:
+   - Hệ số nợ trên vốn chủ sở hữu (D/E).
+   - Hệ số nợ trên tổng tài sản.
+   - Tỷ lệ tài sản ngắn hạn / tổng tài sản.
+   - Hệ số thanh khoản (tiền và tương đương tiền / nợ ngắn hạn).
 
-4. **Vốn chủ sở hữu và an toàn tài chính**  
-   - Xu hướng tăng vốn điều lệ, trích lập quỹ, và lợi nhuận giữ lại.  
-   - So sánh tăng trưởng vốn với tăng trưởng tổng tài sản.
-
-5. **Kết luận tổng thể**  
-   - Cấu trúc tài chính an toàn / rủi ro / thận trọng.  
-   - Đánh giá khả năng chịu biến động thị trường.
-
-Đầu ra mong muốn:
-- Bảng hoặc đoạn tóm tắt theo từng năm.  
-- Biểu đồ xu hướng nếu có thể.  
-- Giọng văn khách quan, chuyên nghiệp.
+4. **Nhận xét tổng quan**:
+   - Mức độ an toàn tài chính.
+   - Xu hướng thay đổi vốn chủ, nợ vay, tài sản đầu tư qua kỳ.
+   - Kết luận: tình hình tài chính của {symbol} **tích cực / trung lập / tiêu cực**, kèm lý do (ví dụ: dòng tiền ổn định, nợ vay giảm, vốn chủ tăng…).
 """
 
     all_analyses.append(f"### 2. Phân tích Bảng cân đối kế toán\n{model.generate_content(prompt2).text}")
 
     print("   [3/4] Phân tích Báo cáo lưu chuyển tiền tệ...")
     cash_flow_df_str = financial_data_dict['cash_flow'].to_string()
-    prompt3 = f"""Bạn là chuyên gia phân tích tài chính chuyên về ngành chứng khoán Việt Nam.  
-Tôi sẽ cung cấp dữ liệu **Báo cáo lưu chuyển tiền tệ (Cash Flow Statement)** của một công ty chứng khoán, gồm các cột:
+    prompt3 = f"""
+Bạn là chuyên gia phân tích tài chính chuyên về doanh nghiệp dầu khí.
+Hãy phân tích Báo cáo Lưu chuyển tiền tệ của công ty {symbol} dựa trên dữ liệu sau:
 
 {cash_flow_df_str}
 
-Hãy phân tích theo hướng:
-1. **Dòng tiền từ hoạt động kinh doanh**  
-   - Xu hướng dòng tiền thuần từ hoạt động chính.  
-   - Mối quan hệ giữa dòng tiền và lợi nhuận kế toán – có chênh lệch lớn không?  
-   - Ảnh hưởng của các khoản cho vay margin và thu hồi vốn đầu tư.
+Yêu cầu phân tích theo cấu trúc sau:
+1. **Hoạt động kinh doanh (Operating cash flow)**:
+   - Tiền thuần từ HĐKD có dương hay âm, và so sánh với lợi nhuận sau thuế.
+   - Giải thích các yếu tố chính: biến động hàng tồn kho dầu khí, phải thu, phải trả, thuế, hoặc chi phí lãi vay.
+   - Đánh giá chất lượng dòng tiền kinh doanh (có phản ánh đúng lợi nhuận không?).
 
-2. **Dòng tiền đầu tư (Investing Cash Flow)**  
-   - Chi ra cho hoạt động tự doanh và đầu tư chứng khoán.  
-   - Có xu hướng mở rộng danh mục đầu tư hay thu hồi vốn?  
-   - Nhận xét rủi ro nếu đầu tư lớn khi thị trường biến động.
+2. **Hoạt động đầu tư (Investing cash flow)**:
+   - Các khoản chi cho đầu tư tài sản cố định, mở rộng dự án, giàn khoan, nhà máy lọc hóa dầu...
+   - Các khoản thu từ thanh lý, cổ tức, hoặc đầu tư tài chính.
+   - Nhận xét: doanh nghiệp đang **mở rộng đầu tư (CAPEX lớn)** hay **duy trì ổn định**.
 
-3. **Dòng tiền tài chính (Financing Cash Flow)**  
-   - Phân tích nguồn vốn đến từ vay ngân hàng, phát hành trái phiếu, tăng vốn chủ sở hữu.  
-   - Đánh giá khả năng duy trì thanh khoản và khả năng trả nợ vay.
+3. **Hoạt động tài chính (Financing cash flow)**:
+   - Dòng tiền vay – trả nợ, chi cổ tức, phát hành cổ phiếu hoặc trái phiếu.
+   - Đánh giá cấu trúc tài chính và chính sách cổ tức.
 
-4. **Dòng tiền thuần và khả năng thanh khoản**  
-   - Tiền cuối kỳ tăng hay giảm qua các năm.  
-   - Dòng tiền có phản ánh đúng sức khỏe tài chính không?  
-   - Rủi ro nếu dòng tiền âm kéo dài trong bối cảnh thị trường chứng khoán suy yếu.
+4. **Tiền và tương đương tiền**:
+   - Dòng tiền thuần trong kỳ (tăng/giảm).
+   - Số dư đầu kỳ, cuối kỳ.
+   - Đánh giá khả năng thanh khoản và dự phòng rủi ro.
 
-5. **Kết luận tổng thể**  
-   - Dòng tiền lành mạnh / trung bình / rủi ro.  
-   - Công ty đang trong giai đoạn mở rộng, thu hồi hay điều chỉnh danh mục đầu tư?
-
-Đầu ra mong muốn:
-- Bảng hoặc đoạn tóm tắt từng năm.  
-- Biểu đồ xu hướng nếu có thể.  
-- Giọng văn chuyên nghiệp, khách quan.
+5. **Nhận xét tổng quan**:
+   - Hoạt động nào tạo/tiêu hao tiền mặt lớn nhất.
+   - Đánh giá sức khỏe dòng tiền, mức độ bền vững và khả năng tài trợ cho đầu tư.
+   - Kết luận: dòng tiền của {symbol} **tích cực / trung lập / tiêu cực**, nêu rõ nguyên nhân.
 """
 
     all_analyses.append(f"### 3. Phân tích Lưu chuyển tiền tệ\n{model.generate_content(prompt3).text}")
@@ -312,7 +297,7 @@ Hãy phân tích theo hướng:
         previous_analyses = "\n\n".join(all_analyses)
         prompt4 = f"""
         Bạn là Chuyên viên Phân tích Đầu tư cao cấp, kết hợp cả phân tích cơ bản và kỹ thuật.
-        Nhiệm vụ của bạn là đưa ra một kết luận cuối cùng cho nhà đầu tư lướt sóng (1 tuần - 3 tuần) về cổ phiếu {symbol}.
+        Nhiệm vụ của bạn là đưa ra một kết luận cuối cùng cho nhà đầu tư lướt sóng (1 tháng) về cổ phiếu {symbol}.
 
         **Phần 1: Các phân tích chi tiết về tài chính doanh nghiệp (Phân tích cơ bản):**
         {previous_analyses}
@@ -338,7 +323,7 @@ Hãy phân tích theo hướng:
             - **Tín hiệu Tích cực:** Xu hướng dài hạn, vùng hỗ trợ mạnh,...
             - **Tín hiệu Tiêu cực:** Vùng kháng cự mạnh, mẫu hình giá xấu,...
 
-        **4. Kết luận và Khuyến nghị (1 tuần - 3 tuần):**
+        **4. Kết luận và Khuyến nghị (1 tháng):**
            - **Kết hợp tất cả các yếu tố**, đưa ra đánh giá cuối cùng: Cổ phiếu này đang **HẤP DẪN**, **TRUNG LẬP**, hay **KHÔNG HẤP DẪN**.
            - **Giải thích rõ ràng** lý do cho khuyến nghị của bạn.
         """
@@ -431,6 +416,4 @@ def main(symbol: str):
 
 if __name__ == '__main__':
     # <<< THAY ĐỔI MÃ CỔ PHIẾU BẠN MUỐN PHÂN TÍCH TẠI ĐÂY >>>
-    # Đảm bảo bạn có file "FPT_1D.csv" trong cùng thư mục
-
-    main("SHS")
+    main("GAS")

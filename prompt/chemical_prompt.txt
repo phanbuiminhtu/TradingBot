@@ -1,0 +1,83 @@
+prompt1 = f"""
+Hãy đóng vai một chuyên gia phân tích tài chính ngành hóa chất tại Việt Nam.
+Phân tích ngắn gọn kết quả kinh doanh của công ty {symbol} dựa trên dữ liệu sau:
+
+{income_df_str}
+
+Yêu cầu phân tích theo cấu trúc sau:
+1. **Điểm nổi bật trong kết quả kinh doanh**:
+   - So sánh tăng/giảm doanh thu, lợi nhuận gộp, lợi nhuận sau thuế giữa các kỳ.
+   - Đề cập nguyên nhân chính: giá bán sản phẩm, giá nguyên liệu đầu vào (khí, urê, amoniac...), chi phí sản xuất, hoặc biến động nhu cầu trong nước / xuất khẩu.
+
+2. **Các chỉ số tài chính quan trọng**:
+   - Doanh thu, lợi nhuận gộp, lợi nhuận ròng.
+   - Biên lợi nhuận gộp và biên lợi nhuận ròng (%).
+   - Tỷ suất sinh lời trên vốn chủ sở hữu (ROE) và trên tài sản (ROA) nếu có dữ liệu.
+
+3. **So sánh xu hướng tăng trưởng**:
+   - So sánh theo quý và theo năm (QoQ, YoY).
+   - Đánh giá tính bền vững của lợi nhuận (nhờ yếu tố giá, sản lượng hay chi phí).
+
+4. **Nhận xét tổng quan**:
+   - Đánh giá triển vọng ngắn hạn của doanh nghiệp dựa trên xu hướng giá , chi phí khí đầu vào, và nhu cầu nông nghiệp.
+   - Kết luận: {symbol} có kết quả **tích cực / trung lập / tiêu cực**, nêu rõ lý do.
+"""
+
+prompt2 = f"""
+Bạn là chuyên viên phân tích tài chính, hãy phân tích Bảng Cân đối kế toán của công ty {symbol} (ngành hóa chất) dựa trên dữ liệu sau:
+
+{balance_df_str}
+
+Yêu cầu phân tích theo cấu trúc sau:
+1. **Tổng quan tài sản**:
+   - Quy mô tổng tài sản, phân tách giữa tài sản ngắn hạn và dài hạn.
+   - Các khoản mục chiếm tỷ trọng lớn: tiền, hàng tồn kho (nguyên liệu khí, hóa chất), phải thu khách hàng, tài sản cố định.
+   - Đánh giá chất lượng tài sản (ví dụ: tồn kho tăng có hợp lý không?).
+
+2. **Cơ cấu nguồn vốn**:
+   - Nợ ngắn hạn, nợ dài hạn và vốn chủ sở hữu.
+   - Tỷ trọng nợ/vốn chủ, thay đổi so với kỳ trước.
+   - Đánh giá khả năng tự chủ tài chính, mức độ rủi ro nợ vay.
+
+3. **Các chỉ số tài chính quan trọng**:
+   - Hệ số nợ trên vốn chủ sở hữu (D/E).
+   - Hệ số nợ trên tổng tài sản.
+   - Tỷ lệ tài sản ngắn hạn / tổng tài sản.
+   - Tỷ lệ tiền và tương đương tiền / nợ ngắn hạn (đánh giá thanh khoản).
+
+4. **Nhận xét tổng quan**:
+   - Mức độ an toàn tài chính và khả năng thanh toán.
+   - Xu hướng biến động tài sản – nguồn vốn qua các kỳ.
+   - Kết luận: tình hình tài chính của {symbol} **tích cực / trung lập / tiêu cực**, giải thích lý do.
+"""
+
+prompt3 = f"""
+Bạn là chuyên viên phân tích tài chính chuyên về doanh nghiệp sản xuất hóa chất.
+Hãy phân tích Báo cáo Lưu chuyển tiền tệ của {symbol} dựa trên dữ liệu sau:
+
+{cash_flow_df_str}
+
+Phân tích theo cấu trúc sau:
+1. **Hoạt động kinh doanh (Operating cash flow)**:
+   - Mức tiền thuần từ HĐKD, có dương hay âm.
+   - Giải thích các yếu tố chính: thay đổi hàng tồn kho, phải thu, phải trả, thuế phải nộp, lợi nhuận thực tế.
+   - Nhận xét về chất lượng dòng tiền kinh doanh (cao hơn hay thấp hơn lợi nhuận ròng?).
+
+2. **Hoạt động đầu tư (Investing cash flow)**:
+   - Các khoản chi đầu tư TSCĐ (nhà máy, máy móc, dây chuyền sản xuất urê, NPK...).
+   - Dòng tiền thu từ thanh lý tài sản, cổ tức nhận được.
+   - Đánh giá: công ty đang mở rộng hay thu hẹp đầu tư.
+
+3. **Hoạt động tài chính (Financing cash flow)**:
+   - Dòng tiền vay nợ, trả nợ, chi cổ tức cho cổ đông.
+   - Đánh giá cấu trúc tài chính và chính sách cổ tức.
+
+4. **Tiền và tương đương tiền**:
+   - Lưu chuyển tiền thuần trong kỳ (tăng/giảm).
+   - Số dư đầu kỳ và cuối kỳ, đánh giá khả năng thanh khoản.
+
+5. **Nhận xét tổng quan**:
+   - Hoạt động nào tạo hoặc tiêu hao tiền mặt lớn nhất.
+   - Đánh giá khả năng tạo tiền và mức độ bền vững.
+   - Kết luận: tình hình dòng tiền của {symbol} **tích cực / trung lập / tiêu cực**, nêu rõ nguyên nhân.
+"""

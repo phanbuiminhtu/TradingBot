@@ -1,0 +1,87 @@
+prompt1 = f"""
+Bạn là chuyên gia phân tích tài chính ngành dầu khí tại Việt Nam.
+Hãy phân tích ngắn gọn kết quả kinh doanh của công ty {symbol} dựa trên dữ liệu sau:
+
+{income_df_str}
+
+Yêu cầu phân tích theo cấu trúc sau:
+1. **Điểm nổi bật trong kết quả kinh doanh**:
+   - Biến động doanh thu, lợi nhuận gộp, lợi nhuận sau thuế theo quý hoặc năm.
+   - Giải thích nguyên nhân chính: biến động giá dầu thô, sản lượng khai thác / vận chuyển / chế biến, giá khí đầu ra, hoặc chi phí đầu vào (nguyên liệu, vận tải, nhân công).
+   - Nếu công ty thuộc hạ nguồn (lọc hóa dầu, phân phối khí, xăng dầu): nêu tác động của **chênh lệch giá dầu đầu vào – đầu ra (crack spread)**, biến động **biên lợi nhuận gộp**.
+
+2. **Các chỉ số tài chính quan trọng**:
+   - Doanh thu, lợi nhuận gộp, lợi nhuận sau thuế.
+   - Biên lợi nhuận gộp, biên lợi nhuận ròng (%).
+   - ROE, ROA nếu có dữ liệu.
+   - Đánh giá mức độ ổn định của lợi nhuận (ổn định hay biến động mạnh theo giá dầu).
+
+3. **So sánh xu hướng tăng trưởng**:
+   - So sánh với cùng kỳ năm trước (YoY) và quý trước (QoQ).
+   - Đánh giá liệu tăng trưởng đến từ giá bán, sản lượng hay yếu tố bất thường (thu nhập khác, lãi/lỗ tỷ giá...).
+
+4. **Nhận xét tổng quan**:
+   - Đánh giá triển vọng ngắn hạn: xu hướng giá dầu, khí, sản lượng khai thác, nhu cầu năng lượng nội địa.
+   - Kết luận: {symbol} có kết quả **tích cực / trung lập / tiêu cực**, nêu rõ lý do.
+"""
+
+prompt2 = f"""
+Bạn là chuyên viên phân tích tài chính chuyên về các doanh nghiệp dầu khí (thượng nguồn, trung nguồn, hạ nguồn).
+Phân tích Bảng Cân đối kế toán của {symbol} dựa trên dữ liệu sau:
+
+{balance_df_str}
+
+Yêu cầu phân tích theo cấu trúc sau:
+1. **Tổng quan tài sản**:
+   - Quy mô tổng tài sản, cơ cấu tài sản ngắn hạn và dài hạn.
+   - Các khoản mục chiếm tỷ trọng lớn: tiền mặt, hàng tồn kho (dầu thô, khí hóa lỏng, xăng dầu), tài sản cố định, tài sản dở dang dài hạn (các dự án dầu khí).
+   - Đánh giá tính thanh khoản của tài sản (ví dụ: tồn kho cao có rủi ro giảm giá hay không).
+
+2. **Cơ cấu nguồn vốn**:
+   - Nợ phải trả ngắn hạn, dài hạn; vốn chủ sở hữu.
+   - Đánh giá mức độ đòn bẩy tài chính (nợ vay cao hay thấp), thay đổi qua các kỳ.
+   - Nhận xét khả năng tự chủ tài chính, rủi ro lãi suất và nợ ngoại tệ.
+
+3. **Các chỉ số tài chính quan trọng**:
+   - Hệ số nợ trên vốn chủ sở hữu (D/E).
+   - Hệ số nợ trên tổng tài sản.
+   - Tỷ lệ tài sản ngắn hạn / tổng tài sản.
+   - Hệ số thanh khoản (tiền và tương đương tiền / nợ ngắn hạn).
+
+4. **Nhận xét tổng quan**:
+   - Mức độ an toàn tài chính.
+   - Xu hướng thay đổi vốn chủ, nợ vay, tài sản đầu tư qua kỳ.
+   - Kết luận: tình hình tài chính của {symbol} **tích cực / trung lập / tiêu cực**, kèm lý do (ví dụ: dòng tiền ổn định, nợ vay giảm, vốn chủ tăng…).
+"""
+
+prompt3 = f"""
+Bạn là chuyên gia phân tích tài chính chuyên về doanh nghiệp dầu khí.
+Hãy phân tích Báo cáo Lưu chuyển tiền tệ của công ty {symbol} dựa trên dữ liệu sau:
+
+{cash_flow_df_str}
+
+Yêu cầu phân tích theo cấu trúc sau:
+1. **Hoạt động kinh doanh (Operating cash flow)**:
+   - Tiền thuần từ HĐKD có dương hay âm, và so sánh với lợi nhuận sau thuế.
+   - Giải thích các yếu tố chính: biến động hàng tồn kho dầu khí, phải thu, phải trả, thuế, hoặc chi phí lãi vay.
+   - Đánh giá chất lượng dòng tiền kinh doanh (có phản ánh đúng lợi nhuận không?).
+
+2. **Hoạt động đầu tư (Investing cash flow)**:
+   - Các khoản chi cho đầu tư tài sản cố định, mở rộng dự án, giàn khoan, nhà máy lọc hóa dầu...
+   - Các khoản thu từ thanh lý, cổ tức, hoặc đầu tư tài chính.
+   - Nhận xét: doanh nghiệp đang **mở rộng đầu tư (CAPEX lớn)** hay **duy trì ổn định**.
+
+3. **Hoạt động tài chính (Financing cash flow)**:
+   - Dòng tiền vay – trả nợ, chi cổ tức, phát hành cổ phiếu hoặc trái phiếu.
+   - Đánh giá cấu trúc tài chính và chính sách cổ tức.
+
+4. **Tiền và tương đương tiền**:
+   - Dòng tiền thuần trong kỳ (tăng/giảm).
+   - Số dư đầu kỳ, cuối kỳ.
+   - Đánh giá khả năng thanh khoản và dự phòng rủi ro.
+
+5. **Nhận xét tổng quan**:
+   - Hoạt động nào tạo/tiêu hao tiền mặt lớn nhất.
+   - Đánh giá sức khỏe dòng tiền, mức độ bền vững và khả năng tài trợ cho đầu tư.
+   - Kết luận: dòng tiền của {symbol} **tích cực / trung lập / tiêu cực**, nêu rõ nguyên nhân.
+"""

@@ -1,0 +1,78 @@
+prompt1 = f"""Bạn là chuyên gia phân tích tài chính trong ngành sản xuất nhựa xây dựng và hạ tầng (ống nhựa, phụ kiện nhựa). 
+Dựa trên bảng dữ liệu có các cột:
+
+{income_df_str}
+
+Hãy thực hiện các bước phân tích sau:
+
+1. **Tăng trưởng kinh doanh:**
+   - Phân tích xu hướng tăng trưởng doanh thu và lợi nhuận trong 3–5 năm.
+   - So sánh với các doanh nghiệp cùng ngành (BMP, DNP, Đại Đồng Tiến).
+   - Xác định chu kỳ tăng trưởng liên quan đến đầu tư công hoặc xây dựng dân dụng.
+
+2. **Biên lợi nhuận và cấu trúc chi phí:**
+   - Tính toán và nhận xét Biên lợi nhuận gộp = Lãi gộp / Doanh thu.
+   - Đánh giá biến động biên gộp do giá hạt nhựa (PVC, HDPE, PP-R).
+   - Phân tích tỷ trọng chi phí bán hàng và quản lý/doanh thu (%).
+   - Xem xét chi phí tài chính và ảnh hưởng của lãi vay.
+
+3. **Hiệu quả sinh lời:**
+   - Tính Biên lợi nhuận ròng = Lợi nhuận sau thuế / Doanh thu.
+   - Phân tích ROE và ROA nếu có dữ liệu bổ sung.
+   - Đánh giá khả năng chuyển hóa doanh thu thành lợi nhuận.
+
+4. **Kết luận:**
+   - Nhận định năng lực cạnh tranh, sức khỏe lợi nhuận, và rủi ro biên lợi nhuận.
+   - Chỉ ra điểm mạnh (quy mô, thương hiệu, kênh phân phối) và điểm yếu (chi phí nguyên liệu, cạnh tranh giá).
+"""
+
+prompt2 = f"""Bạn là chuyên gia tài chính doanh nghiệp trong ngành sản xuất nhựa xây dựng và hạ tầng. 
+Dựa trên bảng dữ liệu có các cột:
+
+{balance_df_str}
+
+Hãy thực hiện phân tích chi tiết:
+
+1. **Cấu trúc tài sản:**
+   - Phân tích tỷ trọng tài sản ngắn hạn và dài hạn.
+   - Đặc biệt đánh giá hàng tồn kho và khoản phải thu — hai chỉ tiêu ảnh hưởng mạnh đến dòng tiền.
+   - So sánh vòng quay hàng tồn kho và khoản phải thu với chuẩn ngành (nếu có dữ liệu nhiều năm).
+
+2. **Tài sản cố định & đầu tư:**
+   - Phân tích quy mô đầu tư máy móc, nhà xưởng, và năng lực sản xuất.
+   - Đánh giá mức tăng tài sản cố định so với tăng trưởng doanh thu → đo hiệu quả đầu tư.
+
+3. **Nguồn vốn và đòn bẩy:**
+   - Tính tỷ lệ Nợ/Tổng tài sản và Nợ/Vốn chủ sở hữu (Debt Ratio & D/E).
+   - Đánh giá khả năng tự chủ tài chính, mức đòn bẩy và rủi ro thanh khoản.
+   - Theo dõi biến động nợ vay trong các giai đoạn mở rộng sản xuất.
+
+4. **Kết luận:**
+   - Đưa ra nhận định về sức khỏe tài chính, khả năng quản trị vốn lưu động, và an toàn tài chính của doanh nghiệp.
+   - Chỉ ra các rủi ro tiềm ẩn (nếu hàng tồn kho hoặc phải thu tăng nhanh hơn doanh thu).
+"""
+
+prompt3 = f"""Bạn là chuyên gia phân tích dòng tiền trong ngành sản xuất nhựa công nghiệp và xây dựng. 
+Dựa trên bảng dữ liệu có các cột:
+
+{cash_flow_df_str}
+
+Hãy thực hiện phân tích sau:
+
+1. **Dòng tiền kinh doanh (CFO):**
+   - So sánh CFO với lợi nhuận sau thuế để đánh giá chất lượng lợi nhuận.
+   - Nếu CFO thấp hơn lợi nhuận → xem xét nguyên nhân (tồn kho tăng, khoản phải thu tăng).
+   - Đánh giá xu hướng CFO qua các năm để xác định tính ổn định.
+
+2. **Dòng tiền đầu tư (CFI):**
+   - Phân tích mức đầu tư vào tài sản cố định và mở rộng nhà máy.
+   - Đánh giá liệu doanh nghiệp có tự tài trợ được đầu tư bằng dòng tiền kinh doanh hay phải vay thêm.
+
+3. **Dòng tiền tài chính (CFF):**
+   - Theo dõi mức độ vay nợ mới, trả nợ và chi trả cổ tức.
+   - Nhận định chính sách tài chính: thận trọng, ổn định hay mở rộng bằng vay nợ.
+
+4. **Tổng hợp và kết luận:**
+   - Đánh giá khả năng tạo tiền thực tế, mức độ bền vững tài chính, và rủi ro dòng tiền.
+   - Đưa ra kết luận ngắn gọn: doanh nghiệp có đang vận hành cân bằng giữa tăng trưởng – đầu tư – tài trợ hay không.
+"""
