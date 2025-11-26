@@ -85,10 +85,10 @@ def get_close_price(symbol_list, interval, start_date, end_date):
 # Example usage:
 if __name__ == "__main__":
     # Example: get 2023 daily close prices for selected symbols
-    symbols = ["GMD", "SSB", "BVH", "BSI", "DIG", "DBC", "NKG", "DGC", "PVS", "VRE"]
-    start = datetime(2020, 1, 1)
-    end = datetime(2025, 10, 9)
+    symbols = ["PVD","BMC","DHC","DHM","DLG","DTL","GTA","HAP","HMC","KSB","PTB","SVT","TTF","VCA","VID","TNT","REE","TCO","TCL","TMS","TYA","VTB","VSC","VTO","VOS","VNL","VIP","AAM","ACL","AGM","ANV"]
+    start = datetime(2024, 12, 30)
+    end = datetime(2025, 1, 2)
 
-    #get_close_price(symbols, "1D", start, end)
+    get_close_price(symbols, "1D", start, end)
 
-    fetch_from_vnstock("DIG","1D",start,end)
+    #fetch_from_vnstock("DIG","1D",start,end)
