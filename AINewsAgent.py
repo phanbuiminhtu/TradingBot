@@ -149,24 +149,27 @@ def extract_name_from_profile(profile_text):
 # ======================
 # 3. TEST FUNCTION
 # ======================
-stock_ticker = "HHV"
-company = Company(symbol=stock_ticker, source='VCI')
+def main(stock_ticker):
+    company = Company(symbol=stock_ticker, source='VCI')
 
-company_profile = company.overview().company_profile.iloc[0]
-industry = company.overview().icb_name4[0]
-company_name = extract_name_from_profile(company_profile)
+    company_profile = company.overview().company_profile.iloc[0]
+    industry = company.overview().icb_name4[0]
+    company_name = extract_name_from_profile(company_profile)
 
-results = stock_news_agent_urls(stock_ticker, company_name, industry)
+    results = stock_news_agent_urls(stock_ticker, company_name, industry)
 
-# 2. Construct the full file path
-today_date = date.today().strftime("%Y-%m-%d")
-filename = f"{stock_ticker}_{today_date}.txt"
-full_file_path = os.path.join("news", filename)
+    # 2. Construct the full file path
+    today_date = date.today().strftime("%Y-%m-%d")
+    filename = f"{stock_ticker}_{today_date}.txt"
+    full_file_path = os.path.join("news", filename)
 
-# 3. Write the content to the file
-with open(full_file_path, 'w', encoding='utf-8') as f:
-    f.write(f"--- DANH SÁCH URL TIN TỨC CHO MÃ {stock_ticker} ---\n")
-    for i, url in enumerate(results, 1):
-        f.write(f"{i}. {url}\n")
+    # 3. Write the content to the file
+    with open(full_file_path, 'w', encoding='utf-8') as f:
+        f.write(f"--- DANH SÁCH URL TIN TỨC CHO MÃ {stock_ticker} ---\n")
+        for i, url in enumerate(results, 1):
+            f.write(f"{i}. {url}\n")
 
-print(f"✅ Kết quả đã được lưu tại: {full_file_path}")
+    print(f"✅ Kết quả đã được lưu tại: {full_file_path}")
+
+if __name__ == '__main__':
+    main("VHE")

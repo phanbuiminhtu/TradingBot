@@ -29,7 +29,7 @@ def extract_name_from_profile(profile_text):
     # 3. Fallback to the first sentence
     return profile_text.split('.')[0].strip()
 
-stock_ticker = "NHH"
+stock_ticker = "VHE"
 company = Company(symbol=stock_ticker, source='VCI')
 company_profile = company.overview().company_profile.iloc[0]
 #company_name = extract_name_from_profile(company_profile)
