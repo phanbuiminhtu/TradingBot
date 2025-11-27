@@ -2,23 +2,10 @@
 import pandas as pd
 import numpy as np
 from ta.momentum import RSIIndicator
-from ta.trend import ema_indicator, CCIIndicator, PSARIndicator
-from ta.volatility import AverageTrueRange
-from ta.trend import EMAIndicator
-from tvDatafeed import TvDatafeed, Interval
+from ta.trend import ema_indicator, PSARIndicator
 import pandas as pd
-from vnstock import Vnstock, Listing
-import os
-import time
-from datetime import datetime, timedelta
-import icb_stock_lists
 import pandas as pd
 import numpy as np
-import io
-import matplotlib.pyplot as plt
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-from PIL import Image
 import pandas_ta as ta
 
 def generate_dsl_buy_signals(df, rsi_length=10, dsl_length=10, zlema_length=10):

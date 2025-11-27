@@ -9,12 +9,14 @@ from dateutil.relativedelta import relativedelta
 import os
 from TechnicalIndicator import detect_big_money
 import numpy as np
+from dotenv import load_dotenv
 # Thư viện mới để vẽ biểu đồ và xử lý ảnh
 import matplotlib.pyplot as plt
 import io
 from PIL import Image
 
 # --- 1. SETUP AND CONFIGURATION ---
+load_dotenv()
 
 def configure_api():
     """
@@ -22,7 +24,7 @@ def configure_api():
     """
     try:
         # Thay thế "YOUR_API_KEY" bằng khóa API thực của bạn
-        api_key = "YOUR_API_KEY"
+        api_key = os.environ.get("GENAI_API_KEY")
         if not api_key or api_key == "YOUR_API_KEY":
             print("ERROR: GOOGLE_API_KEY is not set or is a placeholder.")
             print("Please set your API key to proceed.")
@@ -407,4 +409,4 @@ def main(symbol: str):
 
 if __name__ == '__main__':
     # <<< THAY ĐỔI MÃ CỔ PHIẾU BẠN MUỐN PHÂN TÍCH TẠI ĐÂY >>>
-    main("HII")
+    main("NHH")

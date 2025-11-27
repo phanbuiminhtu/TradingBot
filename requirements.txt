@@ -1,0 +1,11 @@
+google-genai
+vnstock
+serpapi
+pandas
+ipython
+python-dateutil
+numpy
+matplotlib
+Pillow
+ta
+pandas-ta
